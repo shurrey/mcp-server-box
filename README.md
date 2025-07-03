@@ -10,11 +10,11 @@ The Model Context Protocol (MCP) is a framework designed to standardize the way 
 
 ### Box API Tools
 
-#### `box_who_am_i`
+### `box_who_am_i`
 Get your current user information and check connection status.
 - **Returns:** User information string
 
-#### `box_authorize_app_tool`
+### `box_authorize_app_tool`
 Start the Box application authorization process.
 - **Returns:** Authorization status message
 
@@ -27,7 +27,7 @@ Search for files in Box.
   - `ancestor_folder_ids` (List[str], optional): List of folder IDs in which to search.
 - **Returns:** The search results as a newline‑separated list of file names and IDs.
 
-#### `box_read_tool`
+### `box_read_tool`
 Read the text content of a Box file.
 
 **Parameters:**
@@ -305,13 +305,19 @@ List all Doc Gen jobs that used a specific template.
 
 ### Running the MCP Server
 
-To start the MCP server, run the following command:
+The MCP server supports four transport methods: **stdio** (default), **SSE** (Server-Sent Events), **HTTP** (StreamableHttp), and **FastAPI**.
+
+#### Running with stdio transport (default)
 
 ```sh
-uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
+uv --directory /path/to/mcp-server-box run src/mcp_server_box.py
 ```
 
+
+
 ### Using Claude as the client
+
+#### For stdio transport (recommended for Claude Desktop)
 
 1. Edit your `claude_desktop_config.json`:
 
@@ -328,7 +334,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
                 "command": "uv",
                 "args": [
                     "--directory",
-                    "/Users/anovotny/Desktop/mcp-server-box",
+                    "/path/to/mcp-server-box",
                     "run",
                     "src/mcp_server_box.py"
                 ]
@@ -339,7 +345,10 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
 
 3. Restart Claude if it is running.
 
+
 ### Using Cursor as the client
+
+#### For stdio transport
 
 1. Open your IDE with Cursor.
 2. In settings, select `Cursor settings`.
@@ -354,7 +363,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
           "command": "uv",
           "args": [
             "--directory",
-            "/Users/shurrey/local/mcp-server-box",
+            "/path/to/mcp-server-box",
             "run",
             "src/mcp_server_box.py"
           ]
@@ -364,6 +373,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
     ```
 
 6. Save and close the mcp.json file, and restart if necessary.
+
 
 ## Running Tests
 
@@ -395,15 +405,6 @@ pytest -v
 pytest -v -s
 ```
 
-### Available Test Suites
-
-- `test_box_auth.py`: Tests authentication functionality.
-- `test_box_api_basic.py`: Basic Box API tests.
-- `test_box_api_read.py`: Tests file reading capabilities.
-- `test_box_api_search.py`: Tests search functionality.
-- `test_box_api_ai.py`: Tests AI-based features.
-- `test_box_api_file_ops.py`: Tests file upload and download operations.
-- Additional tests cover folder operations and Doc Gen features.
 
 ## Troubleshooting
 
