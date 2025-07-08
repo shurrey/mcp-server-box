@@ -35,14 +35,10 @@ wheels = [
 [[package]]
 name = "box-ai-agents-toolkit"
 version = "0.0.42"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/box-community/box-ai-agents-toolkit.git#752ecf3b008340a067c65170367a2a638be265ed" }
 dependencies = [
     { name = "box-sdk-gen" },
     { name = "python-dotenv" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/d4/b1/d2e1cb5ec811da8ae53b292e22538ebaca81ad39896e4e672fbdc715d1ca/box_ai_agents_toolkit-0.0.42.tar.gz", hash = "sha256:6165f064c2b26999299cf4a7e41b7f4e532eb9c3e80725702c500cd08ebed918", size = 33048 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/5c/9ba184d9b6e4337e9b7dc33a4d6c0709c5e493998a2b1bcb5ee21ad5adbf/box_ai_agents_toolkit-0.0.42-py3-none-any.whl", hash = "sha256:ba3560489ce38f36a81e768aadf7732a99b6ad99dee532ab411dc8da27d8355c", size = 19979 },
 ]
 
 [[package]]
@@ -303,7 +299,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "box-ai-agents-toolkit", specifier = ">=0.0.42" },
+    { name = "box-ai-agents-toolkit", git = "https://github.com/box-community/box-ai-agents-toolkit.git" },
     { name = "fastapi", specifier = ">=0.115.14" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.10.1" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
