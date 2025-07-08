@@ -10,10 +10,10 @@ from box_ai_agents_toolkit.box_api_metadata_template import (
 
 from box_tools_generic import get_box_client
 from box_tools_metadata import (
+    box_metadata_get_instance_on_file_tool,
+    box_metadata_set_instance_on_file_tool,
     box_metadata_template_get_by_key_tool,
     box_metadata_template_get_by_name_tool,
-    box_metadata_set_instance_on_file_tool,
-    box_metadata_get_instance_on_file_tool,
 )
 
 
@@ -166,7 +166,7 @@ async def test_box_metadata_set_get_instance_on_file_tool(ctx, created_template)
     assert extra_data.get("enum_field") == metadata["enum_field"]
     assert extra_data.get("multiselect_field") == metadata["multiselect_field"]
 
-    response_get = box_metadata_get_instance_on_file_tool(
+    response_get = await box_metadata_get_instance_on_file_tool(
         ctx, file_id=file_id, template_key=created_template.template_key
     )
     assert response_get is not None

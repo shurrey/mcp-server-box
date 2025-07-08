@@ -34,10 +34,10 @@ from box_tools_folders import (
 )
 from box_tools_generic import box_authorize_app_tool, box_who_am_i
 from box_tools_metadata import (
+    box_metadata_get_instance_on_file_tool,
+    box_metadata_set_instance_on_file_tool,
     # box_metadata_template_get_by_key_tool,
     box_metadata_template_get_by_name_tool,
-    box_metadata_set_instance_on_file_tool,
-    box_metadata_get_instance_on_file_tool,
 )
 from box_tools_search import box_search_folder_by_name_tool, box_search_tool
 from server_context import box_lifespan
