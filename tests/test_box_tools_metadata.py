@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import Any, Dict, List
 
 import pytest
 from box_ai_agents_toolkit.box_api_metadata_template import (
@@ -12,7 +12,23 @@ from box_tools_generic import get_box_client
 from box_tools_metadata import (
     box_metadata_template_get_by_key_tool,
     box_metadata_template_get_by_name_tool,
+    box_metadata_set_instance_on_file_tool,
+    box_metadata_get_instance_on_file_tool,
 )
+
+
+def get_metadata() -> Dict[str, Any]:
+    """Generate a sample metadata instance for testing."""
+    date = datetime(2023, 10, 1)
+    formatted_datetime = date.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+    return {
+        "test_field": "Test Value",
+        "date_field": formatted_datetime,
+        "float_field": 3.14,
+        "enum_field": "option1",
+        "multiselect_field": ["option1", "option2"],
+    }
 
 
 @pytest.fixture
@@ -118,6 +134,48 @@ async def test_box_metadata_template_get_by_name_tool(ctx, created_template):
     resp = await box_metadata_template_get_by_name_tool(ctx, non_existent_name)
     assert resp is not None
     assert isinstance(resp, dict)
-    # The response should contain 404
     assert "message" in resp
     assert "Template not found" in resp["message"]
+
+    # Test with mixed case
+    resp = await box_metadata_template_get_by_name_tool(
+        ctx, created_template.display_name.lower()
+    )
+    assert resp is not None
+    assert isinstance(resp, dict)
+    assert resp.get("displayName") == created_template.display_name
+
+
+@pytest.mark.asyncio
+async def test_box_metadata_set_get_instance_on_file_tool(ctx, created_template):
+    """Test setting a metadata template instance on a file."""
+    file_id = "1918361187949"  # Replace with a valid file ID for testing
+    metadata = get_metadata()
+
+    resp = await box_metadata_set_instance_on_file_tool(
+        ctx, created_template.template_key, file_id, metadata
+    )
+    assert resp is not None
+    assert isinstance(resp, dict)
+    assert resp["$parent"] == f"file_{file_id}"
+    assert resp["$template"] == created_template.template_key
+    extra_data = resp.get("extra_data", {})
+    assert extra_data.get("test_field") == metadata["test_field"]
+    assert extra_data.get("date_field") == metadata["date_field"]
+    assert extra_data.get("float_field") == metadata["float_field"]
+    assert extra_data.get("enum_field") == metadata["enum_field"]
+    assert extra_data.get("multiselect_field") == metadata["multiselect_field"]
+
+    response_get = box_metadata_get_instance_on_file_tool(
+        ctx, file_id=file_id, template_key=created_template.template_key
+    )
+    assert response_get is not None
+    assert isinstance(response_get, dict)
+    assert response_get["$parent"] == f"file_{file_id}"
+    assert response_get["$template"] == created_template.template_key
+    extra_data_get = response_get.get("extra_data", {})
+    assert extra_data_get.get("test_field") == metadata["test_field"]
+    assert extra_data_get.get("date_field") == metadata["date_field"]
+    assert extra_data_get.get("float_field") == metadata["float_field"]
+    assert extra_data_get.get("enum_field") == metadata["enum_field"]
+    assert extra_data_get.get("multiselect_field") == metadata["multiselect_field"]
