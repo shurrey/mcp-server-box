@@ -1,4 +1,5 @@
 from box_ai_agents_toolkit import (
+    box_metadata_delete_instance_on_file,
     box_metadata_get_instance_on_file,
     box_metadata_set_instance_on_file,
     box_metadata_template_get_by_key,
@@ -87,3 +88,23 @@ async def box_metadata_get_instance_on_file_tool(
     """
     box_client = get_box_client(ctx)
     return box_metadata_get_instance_on_file(box_client, file_id, template_key)
+
+
+async def box_metadata_delete_instance_on_file_tool(
+    ctx: Context,
+    file_id: str,
+    template_key: str,
+) -> dict:
+    """
+    Delete a metadata instance on a file.
+
+    Args:
+        ctx (Context): The context object containing the request and lifespan context.
+        file_id (str): The ID of the file to delete the metadata from.
+        template_key (str): The key of the metadata template.
+
+    Returns:
+        dict: The response from the Box API after deleting the metadata.
+    """
+    box_client = get_box_client(ctx)
+    return box_metadata_delete_instance_on_file(box_client, file_id, template_key)
