@@ -12,6 +12,7 @@ from box_tools_metadata import (
     box_metadata_delete_instance_on_file_tool,
     box_metadata_get_instance_on_file_tool,
     box_metadata_set_instance_on_file_tool,
+    box_metadata_update_instance_on_file_tool,
     box_metadata_template_get_by_key_tool,
     box_metadata_template_get_by_name_tool,
 )
@@ -179,6 +180,46 @@ async def test_box_metadata_set_get_instance_on_file_tool(ctx, created_template)
     assert extra_data_get.get("float_field") == metadata["float_field"]
     assert extra_data_get.get("enum_field") == metadata["enum_field"]
     assert extra_data_get.get("multiselect_field") == metadata["multiselect_field"]
+
+
+@pytest.mark.asyncio
+async def test_box_metadata_update_instance_on_file_tool(ctx, created_template):
+    """Test updating a metadata template instance on a file."""
+    file_id = "1918361187949"  # Replace with a valid file ID for testing
+    metadata = get_metadata()
+
+    # Set initial metadata on the file
+    response_set = await box_metadata_set_instance_on_file_tool(
+        ctx, created_template.template_key, file_id, metadata
+    )
+    assert response_set is not None
+    assert isinstance(response_set, dict)
+    assert response_set.get("error") is None
+
+    updated_metadata = {
+        "test_field": "Updated Test Value",
+        "date_field": "2023-11-01T00:00:00.000Z",
+        "float_field": 2.71,
+        "enum_field": "option2",
+        "multiselect_field": ["option2"],
+    }
+
+    # Update metadata on the file
+    resp = await box_metadata_update_instance_on_file_tool(
+        ctx, file_id, created_template.template_key, updated_metadata
+    )
+    assert resp is not None
+    assert isinstance(resp, dict)
+    assert resp.get("error") is None
+    # Verify the updated metadata
+    assert resp["$parent"] == f"file_{file_id}"
+    assert resp["$template"] == created_template.template_key
+    extra_data = resp.get("extra_data", {})
+    assert extra_data.get("test_field") == updated_metadata["test_field"]
+    assert extra_data.get("date_field") == updated_metadata["date_field"]
+    assert extra_data.get("float_field") == updated_metadata["float_field"]
+    assert extra_data.get("enum_field") == updated_metadata["enum_field"]
+    assert extra_data.get("multiselect_field") == updated_metadata["multiselect_field"]
 
 
 @pytest.mark.asyncio

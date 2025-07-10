@@ -2,6 +2,7 @@ from box_ai_agents_toolkit import (
     box_metadata_delete_instance_on_file,
     box_metadata_get_instance_on_file,
     box_metadata_set_instance_on_file,
+    box_metadata_update_instance_on_file,
     box_metadata_template_get_by_key,
     box_metadata_template_get_by_name,
 )
@@ -88,6 +89,35 @@ async def box_metadata_get_instance_on_file_tool(
     """
     box_client = get_box_client(ctx)
     return box_metadata_get_instance_on_file(box_client, file_id, template_key)
+
+
+async def box_metadata_update_instance_on_file_tool(
+    ctx: Context,
+    file_id: str,
+    template_key: str,
+    metadata: dict,
+    remove_non_included_data: bool = False,
+) -> dict:
+    """
+    Update a metadata instance on a file.
+
+    Args:
+        ctx (Context): The context object containing the request and lifespan context.
+        file_id (str): The ID of the file to update the metadata on.
+        template_key (str): The key of the metadata template.
+        metadata (dict): The metadata to update.
+
+    Returns:
+        dict: The response from the Box API after updating the metadata.
+    """
+    box_client = get_box_client(ctx)
+    return box_metadata_update_instance_on_file(
+        box_client,
+        file_id,
+        template_key,
+        metadata,
+        remove_non_included_data=remove_non_included_data,
+    )
 
 
 async def box_metadata_delete_instance_on_file_tool(
