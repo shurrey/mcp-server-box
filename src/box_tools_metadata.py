@@ -106,6 +106,7 @@ async def box_metadata_update_instance_on_file_tool(
         file_id (str): The ID of the file to update the metadata on.
         template_key (str): The key of the metadata template.
         metadata (dict): The metadata to update.
+        remove_non_included_data (bool): If True, remove data from fields not included in the metadata.
 
     Returns:
         dict: The response from the Box API after updating the metadata.
