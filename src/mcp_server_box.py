@@ -4,12 +4,24 @@ import logging
 from fastapi import FastAPI
 from mcp.server.fastmcp import FastMCP
 
+# from box_tools_ai_deprecated import (
+#     box_ai_extract_tool,
+#     box_ask_ai_tool,
+#     box_ask_ai_tool_multi_file,
+#     box_hubs_ask_ai_tool,
+# )
+
 from box_tools_ai import (
-    box_ai_extract_tool,
-    box_ask_ai_tool,
-    box_ask_ai_tool_multi_file,
-    box_hubs_ask_ai_tool,
+    box_ai_ask_file_single_tool,
+    box_ai_ask_file_multi_tool,
+    box_ai_ask_hub_tool,
+    box_ai_extract_freeform_tool,
+    box_ai_extract_structured_using_fields_tool,
+    box_ai_extract_structured_using_template_tool,
+    box_ai_extract_structured_enhanced_using_fields_tool,
+    box_ai_extract_structured_enhanced_using_template_tool,
 )
+
 from box_tools_docgen import (
     box_docgen_create_batch_tool,
     box_docgen_get_job_tool,
@@ -84,10 +96,14 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_search_folder_by_name_tool)
 
     # AI Tools
-    mcp.tool()(box_ask_ai_tool)
-    mcp.tool()(box_ask_ai_tool_multi_file)
-    mcp.tool()(box_hubs_ask_ai_tool)
-    mcp.tool()(box_ai_extract_tool)
+    mcp.tool()(box_ai_ask_file_single_tool)
+    mcp.tool()(box_ai_ask_file_multi_tool)
+    mcp.tool()(box_ai_ask_hub_tool)
+    mcp.tool()(box_ai_extract_freeform_tool)
+    mcp.tool()(box_ai_extract_structured_using_fields_tool)
+    mcp.tool()(box_ai_extract_structured_using_template_tool)
+    mcp.tool()(box_ai_extract_structured_enhanced_using_fields_tool)
+    mcp.tool()(box_ai_extract_structured_enhanced_using_template_tool)
 
     # Document Generation Tools
     mcp.tool()(box_docgen_create_batch_tool)

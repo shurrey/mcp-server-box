@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from box_tools_ai import (
+from box_tools_ai_deprecated import (
     box_ai_extract_tool,
     box_ai_extract_tool_multi_file,
     box_ask_ai_tool,
