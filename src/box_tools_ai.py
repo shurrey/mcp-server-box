@@ -1,14 +1,14 @@
-from typing import List, Optional, Any
+from typing import Any, List, Optional
 
 from box_ai_agents_toolkit import (
-    box_ai_ask_file_single,  # type: ignore
     box_ai_ask_file_multi,  # type: ignore
+    box_ai_ask_file_single,  # type: ignore
     box_ai_ask_hub,  # type: ignore
     box_ai_extract_freeform,  # type: ignore
-    box_ai_extract_structured_using_fields,  # type: ignore
-    box_ai_extract_structured_using_template,  # type: ignore
     box_ai_extract_structured_enhanced_using_fields,  # type: ignore
     box_ai_extract_structured_enhanced_using_template,  # type: ignore
+    box_ai_extract_structured_using_fields,  # type: ignore
+    box_ai_extract_structured_using_template,  # type: ignore
 )
 from mcp.server.fastmcp import Context
 

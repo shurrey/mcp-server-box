@@ -12,9 +12,9 @@ from box_tools_metadata import (
     box_metadata_delete_instance_on_file_tool,
     box_metadata_get_instance_on_file_tool,
     box_metadata_set_instance_on_file_tool,
-    box_metadata_update_instance_on_file_tool,
     box_metadata_template_get_by_key_tool,
     box_metadata_template_get_by_name_tool,
+    box_metadata_update_instance_on_file_tool,
 )
 
 
@@ -95,9 +95,10 @@ def created_template(ctx, template_name: str):
     yield template
     # Cleanup
     try:
-        _box_metadata_template_delete(
-            box_client_ccg, template_key=template.template_key
-        )
+        if template.template_key is not None:
+            _box_metadata_template_delete(
+                box_client_ccg, template_key=template.template_key
+            )
     except Exception:
         pass  # Template might already be deleted
 

@@ -10,18 +10,16 @@ from mcp.server.fastmcp import FastMCP
 #     box_ask_ai_tool_multi_file,
 #     box_hubs_ask_ai_tool,
 # )
-
 from box_tools_ai import (
-    box_ai_ask_file_single_tool,
     box_ai_ask_file_multi_tool,
+    box_ai_ask_file_single_tool,
     box_ai_ask_hub_tool,
     box_ai_extract_freeform_tool,
-    box_ai_extract_structured_using_fields_tool,
-    box_ai_extract_structured_using_template_tool,
     box_ai_extract_structured_enhanced_using_fields_tool,
     box_ai_extract_structured_enhanced_using_template_tool,
+    box_ai_extract_structured_using_fields_tool,
+    box_ai_extract_structured_using_template_tool,
 )
-
 from box_tools_docgen import (
     box_docgen_create_batch_tool,
     box_docgen_get_job_tool,
@@ -49,7 +47,7 @@ from box_tools_metadata import (
     box_metadata_delete_instance_on_file_tool,
     box_metadata_get_instance_on_file_tool,
     box_metadata_set_instance_on_file_tool,
-    # box_metadata_template_get_by_key_tool,
+    box_metadata_template_create_tool,
     box_metadata_template_get_by_name_tool,
     box_metadata_update_instance_on_file_tool,
 )
@@ -128,12 +126,12 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_manage_folder_tool)
 
     # Metadata Template Tools
-    # mcp.tool()(box_metadata_template_get_by_key_tool)
     mcp.tool()(box_metadata_template_get_by_name_tool)
     mcp.tool()(box_metadata_set_instance_on_file_tool)
     mcp.tool()(box_metadata_get_instance_on_file_tool)
     mcp.tool()(box_metadata_delete_instance_on_file_tool)
     mcp.tool()(box_metadata_update_instance_on_file_tool)
+    mcp.tool()(box_metadata_template_create_tool)
 
 
 if __name__ == "__main__":

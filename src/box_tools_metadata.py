@@ -1,14 +1,79 @@
+from typing import Any, Dict, List, Optional
+
 from box_ai_agents_toolkit import (
     box_metadata_delete_instance_on_file,
     box_metadata_get_instance_on_file,
     box_metadata_set_instance_on_file,
-    box_metadata_update_instance_on_file,
+    box_metadata_template_create,
     box_metadata_template_get_by_key,
     box_metadata_template_get_by_name,
+    box_metadata_update_instance_on_file,
 )
 from mcp.server.fastmcp import Context
 
 from box_tools_generic import get_box_client
+
+
+async def box_metadata_template_create_tool(
+    ctx: Context,
+    display_name: str,
+    fields: List[Dict[str, Any]],
+    template_key: Optional[str] = None,
+) -> dict:
+    """Create a metadata template.
+    Args:
+        ctx (Context): The context object containing the request and lifespan context.
+        display_name (str): The display name of the metadata template.
+        fields (List[Dict[str, Any]]): A list of fields to include in the template.
+        Example:{"displayName": "Customer",
+                "fields": [
+                    {
+                    "type": "string",
+                    "key": "name",
+                    "displayName": "Name",
+                    "description": "The customer name",
+                    "hidden": false
+                    },
+                    {
+                    "type": "date",
+                    "key": "last_contacted_at",
+                    "displayName": "Last Contacted At",
+                    "description": "When this customer was last contacted at",
+                    "hidden": false
+                    },
+                    {
+                    "type": "enum",
+                    "key": "industry",
+                    "displayName": "Industry",
+                    "options": [
+                        {"key": "Technology"},
+                        {"key": "Healthcare"},
+                        {"key": "Legal"}
+                    ]
+                    },
+                    {
+                    "type": "multiSelect",
+                    "key": "role",
+                    "displayName": "Contact Role",
+                    "options": [
+                        {"key": "Developer"},
+                        {"key": "Business Owner"},
+                        {"key": "Marketing"},
+                        {"key": "Legal"},
+                        {"key": "Sales"}
+                    ]
+                    }
+                ]
+                }
+
+        template_key (Optional[str]): An optional key for the metadata template. If not provided, a key will be generated.
+    Returns:
+        dict: The created metadata template.
+    """
+    box_client = get_box_client(ctx)
+    return box_metadata_template_create(
+        box_client, display_name, fields, template_key=template_key
+    )
 
 
 async def box_metadata_template_get_by_key_tool(
