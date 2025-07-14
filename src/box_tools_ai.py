@@ -1,6 +1,6 @@
 from typing import List
 
-from box_ai_agents_toolkit import (
+from box_ai_agents_toolkit.box_api_ai_deprecated import (
     box_file_ai_ask,
     box_file_ai_extract,
     box_hubs_ai_ask,
