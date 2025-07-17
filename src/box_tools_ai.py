@@ -16,7 +16,7 @@ from box_tools_generic import get_box_client
 
 
 async def box_ai_ask_file_single_tool(
-    ctx: Context, file_id: str, prompt: str, ai_agent_id: Optional[str]
+    ctx: Context, file_id: str, prompt: str, ai_agent_id: Optional[str] = None
 ) -> dict:
     """
     Ask Box AI about a single file.
@@ -38,7 +38,7 @@ async def box_ai_ask_file_single_tool(
 
 
 async def box_ai_ask_file_multi_tool(
-    ctx: Context, file_ids: List[str], prompt: str, ai_agent_id: Optional[str]
+    ctx: Context, file_ids: List[str], prompt: str, ai_agent_id: Optional[str] = None
 ) -> dict:
     """
     Ask Box AI about multiple files.
@@ -59,7 +59,7 @@ async def box_ai_ask_file_multi_tool(
 
 
 async def box_ai_ask_hub_tool(
-    ctx: Context, hubs_id: str, prompt: str, ai_agent_id: Optional[str]
+    ctx: Context, hubs_id: str, prompt: str, ai_agent_id: Optional[str] = None
 ) -> dict:
     """
     Ask Box AI about a specific hub.
