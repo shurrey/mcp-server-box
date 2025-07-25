@@ -8,7 +8,7 @@ from mcp.server.fastmcp import FastMCP
 
 @dataclass
 class BoxContext:
-    client: BoxClient = None
+    client: BoxClient | None = None
 
 
 @asynccontextmanager
