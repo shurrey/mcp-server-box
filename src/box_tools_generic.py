@@ -8,7 +8,10 @@ from server_context import BoxContext
 
 def get_box_client(ctx: Context) -> BoxClient:
     """Helper function to get Box client from context"""
-    return cast(BoxContext, ctx.request_context.lifespan_context).client
+    client = cast(BoxContext, ctx.request_context.lifespan_context).client
+    if client is None:
+        raise RuntimeError("Box client is not initialized in the context.")
+    return client
 
 
 async def box_who_am_i(ctx: Context) -> dict:
