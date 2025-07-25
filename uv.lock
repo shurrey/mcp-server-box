@@ -34,8 +34,8 @@ wheels = [
 
 [[package]]
 name = "box-ai-agents-toolkit"
-version = "0.0.42"
-source = { git = "https://github.com/box-community/box-ai-agents-toolkit#7ec26837e75fd7a820645a4b345f02a3592661a6" }
+version = "0.0.43"
+source = { git = "https://github.com/box-community/box-ai-agents-toolkit#0cd5e174916bbeca95dbda7368c068d9882ac037" }
 dependencies = [
     { name = "box-sdk-gen" },
     { name = "python-dotenv" },
