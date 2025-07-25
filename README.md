@@ -10,11 +10,11 @@ The Model Context Protocol (MCP) is a framework designed to standardize the way 
 
 ### Box API Tools
 
-### `box_who_am_i`
+#### `box_who_am_i`
 Get your current user information and check connection status.
-- **Returns:** User information string
+- **Returns:** User information dictionary
 
-### `box_authorize_app_tool`
+#### `box_authorize_app_tool`
 Start the Box application authorization process.
 - **Returns:** Authorization status message
 
@@ -92,41 +92,86 @@ Create, update, or delete folders in Box.
 
 **Returns:** Status message with folder details
 
-### `box_upload_file_tool`
-=======
-- **Parameters:**
-  - `file_id` (str): The ID of the file to be read.
-- **Returns:** Text content of the file.
-
-#### `box_ask_ai_tool`
-Query Box AI regarding a single file.
-- **Parameters:**
-  - `file_id` (str): The file identifier.
-  - `prompt` (str): Query or instruction for the AI.
-- **Returns:** AI response based on the file content.
-
-#### `box_ask_ai_tool_multi_file`
-Query Box AI using multiple files.
-- **Parameters:**
-  - `file_ids` (List[str]): List of file IDs.
-  - `prompt` (str): Instruction for the AI based on the aggregate content.
-- **Returns:** AI-generated answer considering all files provided.
-
-#### `box_search_folder_by_name`
+#### `box_search_folder_by_name_tool`
 Locate a folder in Box by its name.
 - **Parameters:**
   - `folder_name` (str): Name of the folder.
 - **Returns:** Information (name and ID) about matching folders.
 
-#### `box_ai_extract_data`
-Extract specific fields from a file using AI.
+### Box AI Tools
+
+#### `box_ai_ask_file_single_tool`
+Query Box AI regarding a single file.
 - **Parameters:**
-  - `file_id` (str): ID of the file.
-  - `fields` (str): Comma‑separated list of fields to extract.
-- **Returns:** Extracted data in JSON string format.
+  - `file_id` (str): The file identifier.
+  - `prompt` (str): Query or instruction for the AI.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** AI response based on the file content.
+
+#### `box_ai_ask_file_multi_tool`
+Query Box AI using multiple files.
+- **Parameters:**
+  - `file_ids` (List[str]): List of file IDs.
+  - `prompt` (str): Instruction for the AI based on the aggregate content.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** AI-generated answer considering all files provided.
+
+#### `box_ai_ask_hub_tool`
+Ask Box AI about a hub.
+- **Parameters:**
+  - `hubs_id` (str): ID of the hub.
+  - `prompt` (str): Question for the AI.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** AI response based on the hub content.
+
+#### `box_ai_extract_freeform_tool`
+Extract data from files using AI with a freeform prompt.
+- **Parameters:**
+  - `file_ids` (List[str]): The IDs of the files to read.
+  - `prompt` (str): The freeform prompt to guide the AI extraction.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** Extracted data in JSON format.
+
+#### `box_ai_extract_structured_using_fields_tool`
+Extract structured data from files using AI with specified fields.
+- **Parameters:**
+  - `file_ids` (List[str]): The IDs of the files to read.
+  - `fields` (List[dict]): The fields to extract from the files.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** Extracted structured data in JSON format.
+
+#### `box_ai_extract_structured_using_template_tool`
+Extract structured data from files using AI with a specified template.
+- **Parameters:**
+  - `file_ids` (List[str]): The IDs of the files to read.
+  - `template_key` (str): The ID of the template to use for extraction.
+  - `ai_agent_id` (str, optional): The ID of the AI agent to use.
+- **Returns:** Extracted structured data in JSON format.
+
+#### `box_ai_extract_structured_enhanced_using_fields_tool`
+Extract structured data from files using AI with enhanced processing and specified fields.
+- **Parameters:**
+  - `file_ids` (List[str]): The IDs of the files to read.
+  - `fields` (List[dict]): The fields to extract from the files.
+- **Returns:** Enhanced extracted structured data in JSON format.
+
+#### `box_ai_extract_structured_enhanced_using_template_tool`
+Extract structured data from files using AI with enhanced processing and a template.
+- **Parameters:**
+  - `file_ids` (List[str]): The IDs of the files to read.
+  - `template_key` (str): The ID of the template to use for extraction.
+- **Returns:** Enhanced extracted structured data in JSON format.
+
+### Box File Tools
+
+#### `box_read_tool`
+Read the text content of a Box file.
+- **Parameters:**
+  - `file_id` (str): The ID of the file to be read.
+- **Returns:** Text content of the file.
 
 #### `box_list_folder_content_by_folder_id`
-List a folder’s content using its ID.
+List a folder's content using its ID.
 - **Parameters:**
   - `folder_id` (str): Folder ID.
   - `is_recursive` (bool, optional): Whether to list the content recursively.
@@ -167,6 +212,59 @@ Download a file from Box.
   - `save_file` (bool, optional): Whether to save the file locally.
   - `save_path` (str, optional): The local path where the file should be saved.
 - **Returns:** For text files, returns the content; for images, returns base64‑encoded data; for other types, an error or save‑confirmation message.
+
+### Box Metadata Tools
+
+#### `box_metadata_template_create_tool`
+Create a metadata template.
+- **Parameters:**
+  - `display_name` (str): The display name of the metadata template.
+  - `fields` (List[Dict]): A list of fields to include in the template.
+  - `template_key` (str, optional): An optional key for the metadata template.
+- **Returns:** The created metadata template.
+
+#### `box_metadata_template_get_by_key_tool`
+Retrieve a metadata template by its key.
+- **Parameters:**
+  - `template_name` (str): The key of the metadata template to retrieve.
+- **Returns:** The metadata template associated with the provided key.
+
+#### `box_metadata_template_get_by_name_tool`
+Retrieve a metadata template by its name.
+- **Parameters:**
+  - `template_name` (str): The name of the metadata template to retrieve.
+- **Returns:** The metadata template associated with the provided name.
+
+#### `box_metadata_set_instance_on_file_tool`
+Set a metadata instance on a file.
+- **Parameters:**
+  - `template_key` (str): The key of the metadata template.
+  - `file_id` (str): The ID of the file to set the metadata on.
+  - `metadata` (dict): The metadata to set.
+- **Returns:** The response from the Box API after setting the metadata.
+
+#### `box_metadata_get_instance_on_file_tool`
+Get a metadata instance on a file.
+- **Parameters:**
+  - `file_id` (str): The ID of the file to get the metadata from.
+  - `template_key` (str): The key of the metadata template.
+- **Returns:** The metadata instance associated with the file.
+
+#### `box_metadata_update_instance_on_file_tool`
+Update a metadata instance on a file.
+- **Parameters:**
+  - `file_id` (str): The ID of the file to update the metadata on.
+  - `template_key` (str): The key of the metadata template.
+  - `metadata` (dict): The metadata to update.
+  - `remove_non_included_data` (bool, optional): If True, remove data from fields not included in the metadata.
+- **Returns:** The response from the Box API after updating the metadata.
+
+#### `box_metadata_delete_instance_on_file_tool`
+Delete a metadata instance on a file.
+- **Parameters:**
+  - `file_id` (str): The ID of the file to delete the metadata from.
+  - `template_key` (str): The key of the metadata template.
+- **Returns:** The response from the Box API after deleting the metadata.
 
 ### Box Doc Gen Tools
 
@@ -377,33 +475,77 @@ uv --directory /path/to/mcp-server-box run src/mcp_server_box.py
 
 ## Running Tests
 
-The project includes a suite of tests to verify Box API functionality. Before running the tests, update the file and folder IDs in the test files to match those in your Box account.
+The project includes comprehensive test suites for both unit tests and integration tests to verify Box API functionality.
 
-### Setting Up Tests
+### Test Structure
 
-1. **Update File and Folder IDs**: 
-   - Each test file (in the `tests/` directory) uses hardcoded IDs for Box files and folders.
-   - Replace these IDs with valid IDs from your Box account.
-2. **File ID References**:
-   - For example, in `tests/test_box_api_read.py`, replace `"1728677291168"` with a valid file ID.
+The project includes two types of tests:
 
-### Running Tests
+1. **Unit Tests** - Mock-based tests that don't require Box API access:
+   - `test_box_tools_ai.py` - Tests for AI functionality tools
+   - `test_box_tools_generic.py` - Tests for generic Box operations
+   - `test_box_tools_metadata.py` - Tests for metadata operations
+   - `test_box_tools_search.py` - Tests for search functionality
+   - `test_server_context.py` - Tests for server context management
+   - `test_mcp_server_box.py` - Tests for MCP server functionality
 
-Once you've updated the IDs, you can run the tests using pytest:
+2. **Integration Tests** - Tests that require actual Box API access (with `_orig` suffix):
+   - `test_box_tools_files_orig.py`
+   - `test_box_tools_metadata_orig.py`
+   - `test_box_tools_search_orig.py`
+
+### Running Unit Tests
+
+Unit tests use mocks and don't require Box API credentials:
 
 ```bash
-# Run all tests
+# Run all unit tests
+pytest tests/test_box_tools_*.py tests/test_server_context.py tests/test_mcp_server_box.py
+
+# Run specific unit test files
+pytest tests/test_box_tools_ai.py
+pytest tests/test_box_tools_generic.py
+pytest tests/test_box_tools_metadata.py
+
+# Run with coverage
+pytest --cov=src tests/
+```
+
+### Running Integration Tests
+
+Integration tests require Box API credentials and valid file/folder IDs in your Box account:
+
+1. **Set up Box API credentials** in your `.env` file
+2. **Update File and Folder IDs**: 
+   - Each integration test file (ending with `_orig.py`) uses hardcoded IDs for Box files and folders
+   - Replace these IDs with valid IDs from your Box account
+3. **File ID References**:
+   - For example, in `tests/test_box_tools_files_orig.py`, replace `"1728677291168"` with a valid file ID
+
+```bash
+# Run integration tests
+pytest tests/test_*_orig.py
+
+# Run specific integration test
+pytest tests/test_box_tools_files_orig.py
+
+# Run all tests (unit + integration)
 pytest
 
-# Run a specific test file
-pytest tests/test_box_api_file_ops.py
-
-# Run tests with detailed output
+# Run with detailed output
 pytest -v
 
-# Run tests and show print statements
+# Run with print statements
 pytest -v -s
 ```
+
+### Test Dependencies
+
+The test suite uses:
+- `pytest` - Test framework
+- `pytest-asyncio` - For async test support  
+- `pytest-cov` - For coverage reporting
+- `unittest.mock` - For mocking external dependencies
 
 
 ## Troubleshooting
